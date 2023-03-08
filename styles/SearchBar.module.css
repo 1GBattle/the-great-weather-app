@@ -1,0 +1,17 @@
+.inputContainer {
+	padding: 0.4rem;
+	margin-top: 1rem;
+}
+
+.cityInput {
+	width: 85%;
+	height: 3.6rem;
+	font-size: var(--small-font-size);
+	padding: 0.4rem;
+	border: none;
+	border-radius: 3px;
+}
+
+.cityInput:focus {
+	outline: none;
+}

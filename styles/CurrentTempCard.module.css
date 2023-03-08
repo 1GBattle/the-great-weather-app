@@ -1,0 +1,63 @@
+.cardContainer {
+	height: 40%;
+	width: 80vw;
+	top: 10%;
+	position: absolute;
+	-webkit-backdrop-filter: blur(3px);
+	backdrop-filter: blur(3px);
+	background-color: rgba(239, 237, 237, 0.218);
+}
+
+.weatherImg {
+	padding: 1rem;
+}
+
+.cardContent {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+.tempText {
+	font-size: var(--x-large-font-size);
+	font-weight: 600;
+	color: #fff;
+	text-align: center;
+}
+
+.tempCity {
+	text-align: center;
+	font-size: var(--small-font-size);
+	font-weight: 400;
+	margin-bottom: 0.4rem;
+}
+
+.localTime {
+	font-size: var(--x-small-font-size);
+	font-weight: 400;
+	text-align: center;
+}
+
+.tempCondition {
+	font-size: var(--small-font-size);
+	font-weight: 400;
+}
+
+.windSpeed {
+	font-size: var(--small-font-size);
+	font-weight: 400;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+}
+
+.conditionContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
