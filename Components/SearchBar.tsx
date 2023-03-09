@@ -2,6 +2,7 @@ import styles from '@/styles/SearchBar.module.css'
 import { useAppDispatch } from '@/redux/hooks'
 import { useState } from 'react'
 import { getCurrentWeatherByCity } from '@/redux/weatherSlice'
+import axios from 'axios'
 
 export default function SearchBar() {
 	const dispatch = useAppDispatch()

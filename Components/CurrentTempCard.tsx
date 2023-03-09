@@ -6,8 +6,6 @@ import { useAppSelector } from '@/redux/hooks'
 export default function CurrentTempCard() {
 	const currentWeather = useAppSelector((state) => state.weather.currentWeather)
 
-	console.log(currentWeather)
-
 	const { temp_c, temp_f, condition, wind_mph } = currentWeather.current
 	const { localtime, name } = currentWeather.location
 
