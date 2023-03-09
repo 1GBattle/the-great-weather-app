@@ -2,8 +2,8 @@ import axios from 'axios'
 import styles from '@/styles/Home.module.css'
 import CurrentTempCard from '@/Components/CurrentTempCard'
 import SearchBar from '@/Components/SearchBar'
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { useEffect } from 'react'
+import { useAppDispatch } from '@/redux/hooks'
 import { setCurrentWeather } from '@/redux/weatherSlice'
 
 export async function getServerSideProps() {
@@ -29,15 +29,7 @@ interface PageProps {
 }
 
 export default function Page({ currentWeatherData }: PageProps) {
-	const [cityQuery, setCityQuery] = useState<string>('New York')
 	const dispatch = useAppDispatch()
-	const getWeather = async (city: string) => {
-		const response = await axios.get(
-			'/api/currentWeather/getWeather?city=' + cityQuery
-		)
-
-		return response.data
-	}
 
 	//runs when the component mounts
 	useEffect(() => {
@@ -46,7 +38,7 @@ export default function Page({ currentWeatherData }: PageProps) {
 
 	return (
 		<div className={`${styles.lightBackground} page-container`}>
-			<SearchBar cityQuery={cityQuery} setCityQuery={setCityQuery} />
+			<SearchBar />
 			<CurrentTempCard />
 		</div>
 	)

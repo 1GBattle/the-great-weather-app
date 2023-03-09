@@ -1,17 +1,26 @@
-import React, { Dispatch, SetStateAction } from 'react'
 import styles from '@/styles/SearchBar.module.css'
+import { useAppDispatch } from '@/redux/hooks'
+import { useState } from 'react'
+import { getCurrentWeatherByCity } from '@/redux/weatherSlice'
 
-interface Props {
-	cityQuery: string
-	setCityQuery: Dispatch<SetStateAction<string>>
-}
+export default function SearchBar() {
+	const dispatch = useAppDispatch()
+	const [searchQuery, setSearchQuery] = useState('')
 
-export default function SearchBar({ cityQuery, setCityQuery }: Props) {
+	const handleSearch = () => {
+		dispatch(getCurrentWeatherByCity(searchQuery))
+	}
+
 	return (
 		<div className={`${styles.inputContainer} flex-center`}>
 			<input
-				value={cityQuery}
-				onChange={(e) => setCityQuery(e.target.value)}
+				value={searchQuery}
+				onChange={(e) => setSearchQuery(e.target.value)}
+				onKeyUp={(e) => {
+					if (e.key === 'Enter') {
+						handleSearch()
+					}
+				}}
 				className={styles.cityInput}
 				type='text'
 				placeholder='Search for a city'

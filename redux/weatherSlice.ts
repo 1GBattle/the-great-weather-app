@@ -1,4 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+
+export const getCurrentWeatherByCity = createAsyncThunk(
+	'weather/getCurrentWeather',
+	async (city: string, { rejectWithValue }) => {
+		try {
+			const response = await axios.get('/api/currentWeather/getWeather?city=' + city)
+			return response.data
+		} catch (err: any) {
+			return rejectWithValue(err.response.data)
+		}
+	}
+)
 
 const weatherSlice = createSlice({
 	name: 'weather',
@@ -27,6 +40,11 @@ const weatherSlice = createSlice({
 		setForecast(state, action) {
 			state.forecast = action.payload
 		}
+	},
+	extraReducers: (builder) => {
+		builder.addCase(getCurrentWeatherByCity.fulfilled, (state, action) => {
+			state.currentWeather = action.payload
+		})
 	}
 })
 
