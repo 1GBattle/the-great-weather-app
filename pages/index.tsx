@@ -7,22 +7,28 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { setCurrentWeather } from '@/redux/weatherSlice'
 
 export async function getServerSideProps() {
-	const response = await axios.get(
+	const currentWeather = await axios.get(
 		`http://api.weatherapi.com/v1/current.json?key=66ebac34518041b0b4255555230303&q=New York&aqi=no`
+	)
+
+	const forecast = await axios.get(
+		`http://api.weatherapi.com/v1/forecast.json?key=66ebac34518041b0b4255555230303&q=New York&days=3&aqi=no&alerts=no`
 	)
 
 	return {
 		props: {
-			weatherData: response.data
+			currentWeatherData: currentWeather.data,
+			forecastData: forecast.data
 		}
 	}
 }
 
 interface PageProps {
-	weatherData: any
+	currentWeatherData: any
+	forecastData: any
 }
 
-export default function Page({ weatherData }: PageProps) {
+export default function Page({ currentWeatherData }: PageProps) {
 	const [cityQuery, setCityQuery] = useState<string>('New York')
 	const dispatch = useAppDispatch()
 	const getWeather = async (city: string) => {
@@ -35,7 +41,7 @@ export default function Page({ weatherData }: PageProps) {
 
 	//runs when the component mounts
 	useEffect(() => {
-		dispatch(setCurrentWeather(weatherData))
+		dispatch(setCurrentWeather(currentWeatherData))
 	}, [])
 
 	return (
