@@ -1,7 +1,6 @@
 .cardContainer {
-	height: 40%;
-	width: 80vw;
-	top: 7%;
+	height: 50%;
+	width: 22.5%;
 	position: absolute;
 	-webkit-backdrop-filter: blur(3px);
 	backdrop-filter: blur(3px);

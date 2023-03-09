@@ -12,6 +12,13 @@ export default function SearchBar() {
 		dispatch(getCurrentWeatherByCity(searchQuery))
 	}
 
+	const testFn = async () => {
+		const res = await axios.get('/api/forecast/getWeatherForecast?city=London')
+		console.log(res.data)
+	}
+
+	testFn()
+
 	return (
 		<div className={`${styles.inputContainer} flex-center`}>
 			<input

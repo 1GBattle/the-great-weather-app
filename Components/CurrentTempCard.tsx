@@ -23,7 +23,7 @@ export default function CurrentTempCard() {
 				<div className={`${styles.cardContent} flex-column`}>
 					<div className='flex-column'>
 						<div className={styles.cityContent}>
-							<p className={styles.tempCity}>Today in {name}</p>
+							<p className={styles.tempCity}>Now in {name}</p>
 							<p className={styles.localTime}>
 								{new Date(localtime).toDateString()}
 							</p>

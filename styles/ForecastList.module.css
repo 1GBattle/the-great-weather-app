@@ -1,0 +1,9 @@
+.forecastListContainer {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.4rem;
+	height: 40%;
+	top: 50%;
+	width: 100vw;
+	position: absolute;
+}

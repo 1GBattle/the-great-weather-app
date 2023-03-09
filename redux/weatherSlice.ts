@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import WeatherModel from '@/Models/WeatherModel'
 import axios from 'axios'
+import ForecastModel from '@/Models/ForecastModel'
 
 export const getCurrentWeatherByCity = createAsyncThunk(
 	'weather/getCurrentWeather',
@@ -46,7 +47,7 @@ const weatherSlice = createSlice({
 				localtime: ''
 			}
 		} satisfies WeatherModel,
-		forecast: [] as WeatherModel[]
+		forecast: [] as ForecastModel[]
 	},
 	reducers: {
 		setCurrentWeather(state, action) {

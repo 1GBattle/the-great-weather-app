@@ -5,6 +5,7 @@ import SearchBar from '@/Components/SearchBar'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/redux/hooks'
 import { setCurrentWeather } from '@/redux/weatherSlice'
+import ForecastList from '@/Components/forecast/ForeCastList'
 
 export async function getServerSideProps() {
 	const currentWeather = await axios.get(
@@ -12,7 +13,7 @@ export async function getServerSideProps() {
 	)
 
 	const forecast = await axios.get(
-		`http://api.weatherapi.com/v1/forecast.json?key=66ebac34518041b0b4255555230303&q=New York&days=3&aqi=no&alerts=no`
+		`http://api.weatherapi.com/v1/forecast.json?key=66ebac34518041b0b4255555230303&q=New York&days=8&aqi=no&alerts=no`
 	)
 
 	return {
@@ -40,6 +41,7 @@ export default function Page({ currentWeatherData }: PageProps) {
 		<div className={`${styles.lightBackground} page-container`}>
 			<SearchBar />
 			<CurrentTempCard />
+			<ForecastList />
 		</div>
 	)
 }
