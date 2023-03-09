@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+	reactStrictMode: false,
+	images: {
+		domains: ['cdn.weatherapi.com']
+	}
 }
 
 module.exports = nextConfig

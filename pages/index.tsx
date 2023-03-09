@@ -4,7 +4,7 @@ import CurrentTempCard from '@/Components/CurrentTempCard'
 import SearchBar from '@/Components/SearchBar'
 import { useEffect } from 'react'
 import { useAppDispatch } from '@/redux/hooks'
-import { setCurrentWeather } from '@/redux/weatherSlice'
+import { setCurrentWeather, setForecast } from '@/redux/weatherSlice'
 import ForecastList from '@/Components/forecast/ForeCastList'
 
 export async function getServerSideProps() {
@@ -29,12 +29,13 @@ interface PageProps {
 	forecastData: any
 }
 
-export default function Page({ currentWeatherData }: PageProps) {
+export default function Page({ currentWeatherData, forecastData }: PageProps) {
 	const dispatch = useAppDispatch()
 
 	//runs when the component mounts
 	useEffect(() => {
 		dispatch(setCurrentWeather(currentWeatherData))
+		dispatch(setForecast(forecastData))
 	}, [])
 
 	return (

@@ -3,8 +3,8 @@ import WeatherModel from '@/Models/WeatherModel'
 import axios from 'axios'
 import ForecastModel from '@/Models/ForecastModel'
 
-export const getCurrentWeatherByCity = createAsyncThunk(
-	'weather/getCurrentWeather',
+export const setCurrentWeatherByCity = createAsyncThunk(
+	'weather/setCurrentWeatherByCity',
 	async (city: string, { rejectWithValue }) => {
 		try {
 			const response = await axios.get('/api/currentWeather/getWeather?city=' + city)
@@ -15,8 +15,8 @@ export const getCurrentWeatherByCity = createAsyncThunk(
 	}
 )
 
-export const getWeatherForecast = createAsyncThunk(
-	'weather/getWeatherForecast',
+export const setWeatherForecastByCity = createAsyncThunk(
+	'weather/setWeatherForecast',
 	async (city: string, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
@@ -47,23 +47,23 @@ const weatherSlice = createSlice({
 				localtime: ''
 			}
 		} satisfies WeatherModel,
-		forecast: [] as ForecastModel[]
+		forecast: [] as ForecastModel[][]
 	},
 	reducers: {
 		setCurrentWeather(state, action) {
 			state.currentWeather = action.payload
 		},
 		setForecast(state, action) {
-			state.forecast.push(action.payload)
+			state.forecast.push(action.payload.forecast.forecastday)
 		}
 	},
 	extraReducers: (builder) => {
-		builder.addCase(getCurrentWeatherByCity.fulfilled, (state, action) => {
+		builder.addCase(setCurrentWeatherByCity.fulfilled, (state, action) => {
 			state.currentWeather = action.payload
 		})
 
-		builder.addCase(getWeatherForecast.fulfilled, (state, action) => {
-			state.forecast = action.payload
+		builder.addCase(setWeatherForecastByCity.fulfilled, (state, action) => {
+			state.forecast.push(action.payload.forecast.forecastday)
 		})
 	}
 })

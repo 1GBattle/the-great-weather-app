@@ -2,7 +2,6 @@ import styles from '@/styles/SearchBar.module.css'
 import { useAppDispatch } from '@/redux/hooks'
 import { useState } from 'react'
 import { getCurrentWeatherByCity } from '@/redux/weatherSlice'
-import axios from 'axios'
 
 export default function SearchBar() {
 	const dispatch = useAppDispatch()
@@ -11,13 +10,6 @@ export default function SearchBar() {
 	const handleSearch = () => {
 		dispatch(getCurrentWeatherByCity(searchQuery))
 	}
-
-	const testFn = async () => {
-		const res = await axios.get('/api/forecast/getWeatherForecast?city=London')
-		console.log(res.data)
-	}
-
-	testFn()
 
 	return (
 		<div className={`${styles.inputContainer} flex-center`}>
