@@ -63,7 +63,8 @@ const weatherSlice = createSlice({
 		})
 
 		builder.addCase(setWeatherForecastByCity.fulfilled, (state, action) => {
-			state.forecast.push(action.payload.forecast.forecastday)
+			state.forecast = []
+			state.forecast.push(action.payload)
 		})
 	}
 })

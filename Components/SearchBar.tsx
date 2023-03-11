@@ -1,14 +1,18 @@
 import styles from '@/styles/SearchBar.module.css'
 import { useAppDispatch } from '@/redux/hooks'
 import { useState } from 'react'
-import { getCurrentWeatherByCity } from '@/redux/weatherSlice'
+import {
+	setCurrentWeatherByCity,
+	setWeatherForecastByCity
+} from '@/redux/weatherSlice'
 
 export default function SearchBar() {
 	const dispatch = useAppDispatch()
 	const [searchQuery, setSearchQuery] = useState('')
 
 	const handleSearch = () => {
-		dispatch(getCurrentWeatherByCity(searchQuery))
+		dispatch(setCurrentWeatherByCity(searchQuery))
+		dispatch(setWeatherForecastByCity(searchQuery))
 	}
 
 	return (

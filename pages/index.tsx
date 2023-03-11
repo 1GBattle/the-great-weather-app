@@ -2,7 +2,7 @@ import axios from 'axios'
 import styles from '@/styles/Home.module.css'
 import CurrentTempCard from '@/Components/CurrentTempCard'
 import SearchBar from '@/Components/SearchBar'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch } from '@/redux/hooks'
 import { setCurrentWeather, setForecast } from '@/redux/weatherSlice'
 import ForecastList from '@/Components/forecast/ForeCastList'
@@ -31,11 +31,30 @@ interface PageProps {
 
 export default function Page({ currentWeatherData, forecastData }: PageProps) {
 	const dispatch = useAppDispatch()
-
+	const [latLong, setLatLong] = useState<null | {
+		longitude: number
+		latitude: number
+	}>(null)
+	const getLocation = () => {
+		if (navigator.geolocation) {
+			return navigator.geolocation.getCurrentPosition((position) => {
+				const { latitude, longitude } = position.coords
+				setLatLong({ latitude, longitude })
+			})
+		} else {
+			console.log('Geolocation is not supported by this browser.')
+		}
+	}
 	//runs when the component mounts
 	useEffect(() => {
 		dispatch(setCurrentWeather(currentWeatherData))
 		dispatch(setForecast(forecastData))
+
+		getLocation()
+
+		if (latLong) {
+			console.log(latLong)
+		}
 	}, [])
 
 	return (
