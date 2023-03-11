@@ -5,7 +5,7 @@ import ForecastModel from '@/Models/ForecastModel'
 
 export const setCurrentWeatherByCity = createAsyncThunk(
 	'weather/setCurrentWeatherByCity',
-	async (city: string, { rejectWithValue }) => {
+	async (city: string | null, { rejectWithValue }) => {
 		try {
 			const response = await axios.get('/api/currentWeather/getWeather?city=' + city)
 			return response.data
@@ -21,6 +21,41 @@ export const setWeatherForecastByCity = createAsyncThunk(
 		try {
 			const response = await axios.get(
 				'/api/forecast/getWeatherForecast?city=' + city
+			)
+			return response.data
+		} catch (err: any) {
+			return rejectWithValue(err.response.data)
+		}
+	}
+)
+
+export const setCurrentWeatherByGeoLocation = createAsyncThunk(
+	'weather/setCurrentWeatherByGeoLocation',
+	async (
+		geoLocation: { latitude: number; longitude: number },
+		{ rejectWithValue }
+	) => {
+		try {
+			const response = await axios.get(
+				`/api/currentWeather/getWeather?latitude=${geoLocation.latitude}&longitude=${geoLocation.longitude}`
+			)
+			console.log('response data', response.data)
+			return response.data
+		} catch (err: any) {
+			return rejectWithValue(err.response.data)
+		}
+	}
+)
+
+export const setWeatherForecastByGeoLocation = createAsyncThunk(
+	'weather/setWeatherForecastByGeoLocation',
+	async (
+		geoLocation: { latitude: number; longitude: number },
+		{ rejectWithValue }
+	) => {
+		try {
+			const response = await axios.get(
+				`/api/forecast/getWeatherForecast?latitude=${geoLocation.latitude}&longitude=${geoLocation.longitude}`
 			)
 			return response.data
 		} catch (err: any) {
@@ -47,7 +82,11 @@ const weatherSlice = createSlice({
 				localtime: ''
 			}
 		} satisfies WeatherModel,
-		forecast: [] as ForecastModel[][]
+		forecast: [] as ForecastModel[][],
+		geoLocation: {
+			latitude: 0,
+			longitude: 0
+		}
 	},
 	reducers: {
 		setCurrentWeather(state, action) {
@@ -55,6 +94,9 @@ const weatherSlice = createSlice({
 		},
 		setForecast(state, action) {
 			state.forecast.push(action.payload.forecast.forecastday)
+		},
+		setLocation(state, action) {
+			state.geoLocation = action.payload
 		}
 	},
 	extraReducers: (builder) => {
@@ -66,8 +108,17 @@ const weatherSlice = createSlice({
 			state.forecast = []
 			state.forecast.push(action.payload)
 		})
+
+		builder.addCase(setCurrentWeatherByGeoLocation.fulfilled, (state, action) => {
+			state.currentWeather = action.payload
+		})
+
+		builder.addCase(setWeatherForecastByGeoLocation.fulfilled, (state, action) => {
+			state.forecast = []
+			state.forecast.push(action.payload)
+		})
 	}
 })
 
-export const { setCurrentWeather, setForecast } = weatherSlice.actions
+export const { setCurrentWeather, setForecast, setLocation } = weatherSlice.actions
 export default weatherSlice.reducer

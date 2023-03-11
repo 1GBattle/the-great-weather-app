@@ -3,9 +3,16 @@ import styles from '@/styles/Home.module.css'
 import CurrentTempCard from '@/Components/CurrentTempCard'
 import SearchBar from '@/Components/SearchBar'
 import { useEffect, useState } from 'react'
-import { useAppDispatch } from '@/redux/hooks'
-import { setCurrentWeather, setForecast } from '@/redux/weatherSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import {
+	setCurrentWeather,
+	setCurrentWeatherByGeoLocation,
+	setForecast,
+	setLocation,
+	setWeatherForecastByGeoLocation
+} from '@/redux/weatherSlice'
 import ForecastList from '@/Components/forecast/ForeCastList'
+import getWeather from './api/currentWeather/getWeather'
 
 export async function getServerSideProps() {
 	const currentWeather = await axios.get(
@@ -31,15 +38,15 @@ interface PageProps {
 
 export default function Page({ currentWeatherData, forecastData }: PageProps) {
 	const dispatch = useAppDispatch()
-	const [latLong, setLatLong] = useState<null | {
-		longitude: number
-		latitude: number
-	}>(null)
+	const { latitude, longitude } = useAppSelector(
+		(state) => state.weather.geoLocation
+	)
+
 	const getLocation = () => {
 		if (navigator.geolocation) {
 			return navigator.geolocation.getCurrentPosition((position) => {
 				const { latitude, longitude } = position.coords
-				setLatLong({ latitude, longitude })
+				dispatch(setLocation({ latitude, longitude }))
 			})
 		} else {
 			console.log('Geolocation is not supported by this browser.')
@@ -51,11 +58,14 @@ export default function Page({ currentWeatherData, forecastData }: PageProps) {
 		dispatch(setForecast(forecastData))
 
 		getLocation()
-
-		if (latLong) {
-			console.log(latLong)
-		}
 	}, [])
+
+	useEffect(() => {
+		if (latitude && longitude) {
+			dispatch(setCurrentWeatherByGeoLocation({ latitude, longitude }))
+			// dispatch(setWeatherForecastByGeoLocation({ latitude, longitude }))
+		}
+	}, [latitude, longitude])
 
 	return (
 		<div className={`${styles.lightBackground} page-container`}>

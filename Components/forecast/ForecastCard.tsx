@@ -16,7 +16,7 @@ export default function ForecastCard({ icon, forecast }: Props) {
 						<div className={styles.cityContent}>
 							<h3 className={styles.forecastDate}>
 								{new Date(forecast.date).toLocaleDateString('en-us', {
-									weekday: 'long',
+									weekday: 'short',
 									year: 'numeric',
 									month: 'short',
 									day: 'numeric'
@@ -39,7 +39,7 @@ export default function ForecastCard({ icon, forecast }: Props) {
 								</p>
 							</div>
 						</div>
-						<div className={`${styles.sunTimesContainer} flex-center`}>
+						<div className={`${styles.sunTimesContainer} flex-column`}>
 							<p>Sunrise: {forecast.astro.sunrise.slice(0, -2)}</p>
 							<p>Sunset: {forecast.astro.sunset.slice(0, -2)}</p>
 						</div>
